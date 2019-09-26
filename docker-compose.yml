@@ -26,27 +26,13 @@ services:
 
     slave:
         image: redis
-#        ports:
-#            - 6480:6380
         volumes:
-#            - ${REDIS_S1_HOST}:${REDIS_M_CONTAINER}
             - ${REDIS_CONF_HOST}:${REDIS_CONF_CONTAINER}
         command: redis-server ${REDIS_CONF_CONTAINER}/slave.conf
 
-#    sentinel:
-#        image: redis
-#        ports:
-#            - 26479:26379
-#        volumes:
-#            - ${REDIS_CONF_HOST}:${REDIS_CONF_CONTAINER}
-#        command: redis-server ${REDIS_CONF_CONTAINER}/sentinel.conf --sentinel
-
-#    composer:
-#        image: composer:1.6
-#        volumes:
-#            - ${APP_PATH_HOST1}:${APP_PATH_CONTAINER}
-#        working_dir: ${APP_PATH_CONTAINER}
-#        command: composer install
+    sentinel:
+        build: ./sentinel
+        command: redis-server /etc/redis/sentinel.conf --sentinel
 
 networks:
   default:
