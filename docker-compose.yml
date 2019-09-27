@@ -25,10 +25,8 @@ services:
         command: redis-server ${REDIS_CONF_CONTAINER}/master.conf
 
     slave:
-        image: redis
-        volumes:
-            - ${REDIS_CONF_HOST}:${REDIS_CONF_CONTAINER}
-        command: redis-server ${REDIS_CONF_CONTAINER}/slave.conf
+        build: ./slave
+        command: redis-server /etc/redis/slave.conf
 
     sentinel:
         build: ./sentinel
