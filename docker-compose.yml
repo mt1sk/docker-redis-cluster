@@ -14,22 +14,18 @@ services:
             - 8081:80
         working_dir: ${APP_PATH_CONTAINER}
 
-# master
-    redis:
-        image: redis
+    master:
+        build: ./redis
         ports:
             - 6479:6379
-        volumes:
-            - ${REDIS_M_HOST}:${REDIS_M_CONTAINER}
-            - ${REDIS_CONF_HOST}:${REDIS_CONF_CONTAINER}
-        command: redis-server ${REDIS_CONF_CONTAINER}/master.conf
+        command: redis-server /etc/redis/master.conf
 
     slave:
-        build: ./slave
+        build: ./redis/slave
         command: redis-server /etc/redis/slave.conf
 
     sentinel:
-        build: ./sentinel
+        build: ./redis/sentinel
         command: redis-server /etc/redis/sentinel.conf --sentinel
 
 networks:
